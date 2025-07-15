@@ -1,0 +1,13 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [1.0.0] - 2025-05-13
+
+### Added
+- Initial stable release
+- CPU usage monitoring in percentage
+- RAM usage monitoring in GB
+- Menu bar integration
+- Refresh, Restart and Quit functionality
+- Automatic updates every 2 seconds 
