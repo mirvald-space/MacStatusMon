@@ -1,34 +1,34 @@
 # MacStatusMon
 
-Легкий и компактный монитор системных ресурсов для macOS, отображающийся в строке меню.
+Lightweight and compact system resource monitor for macOS that displays in the menu bar.
 
-## Возможности
+## Features
 
-- Отображение загрузки CPU в процентах
-- Отображение использования оперативной памяти (RAM)
-- Автоматическое обновление каждые 2 секунды
-- Минимальное потребление ресурсов
+- CPU usage display in percentage
+- RAM usage monitoring
+- Automatic updates every 2 seconds
+- Minimal resource consumption
 
-## Функции
+## Functions
 
-- **Обновить (⌘+R)**: Обновить статистику вручную
-- **Перезапуск (⌘+P)**: Перезапустить приложение
-- **Выход (⌘+Q)**: Закрыть приложение
+- **Refresh (⌘+R)**: Update statistics manually
+- **Restart (⌘+P)**: Restart the application
+- **Quit (⌘+Q)**: Close the application
 
-## Установка
+## Installation
 
-1. Скачайте последнюю версию из раздела [Releases](https://github.com/yourusername/MacStatusMon/releases)
-2. Переместите приложение в папку Applications
-3. Запустите приложение
+1. Download the latest version from [Releases](https://github.com/mirvald-space/MacStatusMon/releases)
+2. Move the application to your Applications folder
+3. Launch the application
 
-## Сборка из исходников
+## Building from source
 
 ```bash
-git clone https://github.com/yourusername/MacStatusMon.git
+git clone https://github.com/mirvald-space/MacStatusMon.git
 cd MacStatusMon
 swiftc SystemMonitor.swift -o MacStatusMon
 ```
 
-## Лицензия
+## License
 
 MIT 

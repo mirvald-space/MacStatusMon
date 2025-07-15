@@ -16,17 +16,17 @@ class SystemMonitor: NSObject {
         
         let menu = NSMenu()
         
-        let updateItem = NSMenuItem(title: "Обновить", action: #selector(updateStats), keyEquivalent: "r")
+        let updateItem = NSMenuItem(title: "Refresh", action: #selector(updateStats), keyEquivalent: "r")
         updateItem.target = self
         menu.addItem(updateItem)
         
-        let restartItem = NSMenuItem(title: "Перезапуск", action: #selector(restart), keyEquivalent: "p")
+        let restartItem = NSMenuItem(title: "Restart", action: #selector(restart), keyEquivalent: "p")
         restartItem.target = self
         menu.addItem(restartItem)
         
         menu.addItem(NSMenuItem.separator())
         
-        let quitItem = NSMenuItem(title: "Выход", action: #selector(quit), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q")
         quitItem.target = self
         menu.addItem(quitItem)
         
