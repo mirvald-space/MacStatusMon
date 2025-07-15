@@ -34,7 +34,7 @@
    ```
 3. Compile the application:
    ```bash
-   swiftc SystemMonitor.swift -o MacStatusMon
+   swiftc MacStatusMon.swift -o MacStatusMon
    ```
 4. Run the application:
    ```bash
