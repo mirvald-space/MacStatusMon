@@ -48,11 +48,13 @@ class MacStatusMon: NSObject {
     @objc func updateStats() {
         let cpu = getCPUUsage()
         let (used, total) = getMemoryInfo()
-        var title = "CPU: \(cpu)% RAM: \(used)/\(total)GB"
+        var title = ""
         
         if showTemperature {
             let tempIndicator = getCPUThermalIndicator()
-            title += " \(tempIndicator)"
+            title = "CPU \(tempIndicator): \(cpu)% RAM: \(used)/\(total)GB"
+        } else {
+            title = "CPU: \(cpu)% RAM: \(used)/\(total)GB"
         }
         
         statusItem.button?.title = title
