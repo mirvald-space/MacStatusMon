@@ -4,6 +4,7 @@ import Foundation
 class MacStatusMon: NSObject {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     var timer: Timer?
+    var showTemperature = true
     
     override init() {
         super.init()
@@ -19,6 +20,10 @@ class MacStatusMon: NSObject {
         let updateItem = NSMenuItem(title: "Refresh", action: #selector(updateStats), keyEquivalent: "r")
         updateItem.target = self
         menu.addItem(updateItem)
+        
+        let toggleTempItem = NSMenuItem(title: "Toggle Temperature", action: #selector(toggleTemperature), keyEquivalent: "t")
+        toggleTempItem.target = self
+        menu.addItem(toggleTempItem)
         
         let restartItem = NSMenuItem(title: "Restart", action: #selector(restart), keyEquivalent: "p")
         restartItem.target = self
@@ -43,7 +48,19 @@ class MacStatusMon: NSObject {
     @objc func updateStats() {
         let cpu = getCPUUsage()
         let (used, total) = getMemoryInfo()
-        statusItem.button?.title = "CPU: \(cpu)% RAM: \(used)/\(total)GB"
+        var title = "CPU: \(cpu)% RAM: \(used)/\(total)GB"
+        
+        if showTemperature {
+            let temp = getCPUTemperature()
+            title += " \(temp)°C"
+        }
+        
+        statusItem.button?.title = title
+    }
+    
+    @objc func toggleTemperature() {
+        showTemperature = !showTemperature
+        updateStats()
     }
     
     func getCPUUsage() -> Int {
@@ -59,6 +76,26 @@ class MacStatusMon: NSObject {
         let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "0"
         
         return Int(Double(output) ?? 0)
+    }
+    
+    func getCPUTemperature() -> String {
+        let task = Process()
+        task.launchPath = "/opt/homebrew/bin/osx-cpu-temp"
+        
+        let pipe = Pipe()
+        task.standardOutput = pipe
+        task.launch()
+        
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "N/A"
+        
+        // Remove the "°C" suffix if present
+        if output.hasSuffix("°C") {
+            let endIndex = output.index(output.endIndex, offsetBy: -2)
+            return String(output[..<endIndex])
+        }
+        
+        return output
     }
     
     func getMemoryInfo() -> (String, String) {
