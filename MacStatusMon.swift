@@ -51,8 +51,8 @@ class MacStatusMon: NSObject {
         var title = "CPU: \(cpu)% RAM: \(used)/\(total)GB"
         
         if showTemperature {
-            let temp = getCPUTemperature()
-            title += " \(temp)°C"
+            let tempIndicator = getCPUThermalIndicator()
+            title += " \(tempIndicator)"
         }
         
         statusItem.button?.title = title
@@ -78,24 +78,20 @@ class MacStatusMon: NSObject {
         return Int(Double(output) ?? 0)
     }
     
-    func getCPUTemperature() -> String {
-        let task = Process()
-        task.launchPath = "/opt/homebrew/bin/osx-cpu-temp"
+    func getCPUThermalIndicator() -> String {
+        // Используем загрузку CPU как индикатор тепловыделения
+        let cpuUsage = getCPUUsage()
         
-        let pipe = Pipe()
-        task.standardOutput = pipe
-        task.launch()
-        
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "N/A"
-        
-        // Remove the "°C" suffix if present
-        if output.hasSuffix("°C") {
-            let endIndex = output.index(output.endIndex, offsetBy: -2)
-            return String(output[..<endIndex])
+        // Определяем уровень нагрева на основе загрузки CPU
+        if cpuUsage < 30 {
+            return "🥶" // Холодный
+        } else if cpuUsage < 60 {
+            return "😌" // Нормальный
+        } else if cpuUsage < 85 {
+            return "🥵" // Горячий
+        } else {
+            return "🔥" // Очень горячий
         }
-        
-        return output
     }
     
     func getMemoryInfo() -> (String, String) {
